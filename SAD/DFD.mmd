@@ -1,0 +1,84 @@
+flowchart LR
+    %% ===============================
+    %%   EXTERNAL ENTITIES
+    %% ===============================
+    Member[[Member]]
+    Admin[[Admin]]
+    Notify[[Notification Service]]
+
+    %% ===============================
+    %%   PROCESSES
+    %% ===============================
+    Auth((1.0 User Authentication))
+    Register((2.0 Membership Registration))
+    Events((3.0 Event Management))
+    Reports((4.0 Report Management))
+    Announce((5.0 Announcement Management))
+    Subscribe((6.0 Subscription Management))
+    Profile((7.0 User Profile Management))
+    Logout((8.0 Session Termination))
+
+    %% ===============================
+    %%   DATA STORES
+    %% ===============================
+    Users[(D1 User Accounts)]
+    EventDB[(D2 Event Records)]
+    ReportDB[(D3 Reports Database)]
+    AnnounceDB[(D4 Announcements)]
+    SubsDB[(D5 Subscriptions)]
+
+    %% ===============================
+    %%   DATA FLOWS – AUTHENTICATION
+    %% ===============================
+    Member -->|Login Credentials| Auth
+    Admin -->|Login Credentials| Auth
+    Auth -->|Authentication Result| Users
+
+    %% ===============================
+    %%   DATA FLOWS – REGISTRATION
+    %% ===============================
+    Member -->|Application Details| Register
+    Admin -->|Approval / Rejection| Register
+    Register -->|Account Record| Users
+
+    %% ===============================
+    %%   DATA FLOWS – EVENTS
+    %% ===============================
+    Member -->|View / Submit Evaluation| Events
+    Admin -->|Create / Update Events| Events
+    Events -->|Event Data| EventDB
+
+    %% ===============================
+    %%   DATA FLOWS – REPORTS
+    %% ===============================
+    Member -->|Submit Report| Reports
+    Admin -->|Review / Update Status| Reports
+    Reports -->|Report Records| ReportDB
+
+    %% ===============================
+    %%   DATA FLOWS – ANNOUNCEMENTS
+    %% ===============================
+    Admin -->|Announcement Content| Announce
+    Announce -->|Published Data| AnnounceDB
+    AnnounceDB -->|Announcements| Member
+    Announce --> Notify
+
+    %% ===============================
+    %%   DATA FLOWS – SUBSCRIPTIONS
+    %% ===============================
+    Member -->|Email Address| Subscribe
+    Subscribe -->|Subscriber Info| SubsDB
+    Subscribe --> Notify
+
+    %% ===============================
+    %%   DATA FLOWS – USER PROFILE
+    %% ===============================
+    Member -->|Profile Update| Profile
+    Admin -->|Profile Update| Profile
+    Profile -->|Updated Profile| Users
+
+    %% ===============================
+    %%   LOGOUT
+    %% ===============================
+    Member --> Logout
+    Admin --> Logout
