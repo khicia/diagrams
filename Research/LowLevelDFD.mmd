@@ -1,0 +1,49 @@
+flowchart LR
+
+%% External Entities
+Drivers[Drivers]
+Mechanics[Mechanics]
+Researchers[Researchers]
+Users[Mobile App Users]
+
+%% Data Stores
+D1[(Tire Image Dataset)]
+D2[(Defect Classification Dataset)]
+D3[(Trained CNN Model)]
+D4[(Evaluation Results)]
+
+%% Processes
+P1[1.0 Collect Tire Data]
+P2[2.0 Gather System Requirements]
+P3[3.0 Image Pre-processing & Augmentation]
+P4[4.0 CNN Model Training]
+P5[5.0 Model Validation & Testing]
+P6[6.0 Model Deployment]
+P7[7.0 Tire Defect Classification]
+P8[8.0 System Evaluation using TAM]
+
+%% Data Flows
+Drivers --> P2
+Mechanics --> P2
+P2 --> Researchers
+
+Researchers --> P1
+P1 --> D1
+
+D1 --> P3
+P3 --> D2
+
+D2 --> P4
+P4 --> D3
+
+D3 --> P5
+P5 --> D4
+
+D3 --> P6
+P6 --> P7
+
+Users --> P7
+P7 --> Users
+
+Users --> P8
+P8 --> D4
