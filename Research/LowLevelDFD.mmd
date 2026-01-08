@@ -1,49 +1,35 @@
-flowchart LR
+flowchart TB
 
-%% External Entities
-Drivers[Drivers]
-Mechanics[Mechanics]
-Researchers[Researchers]
-Users[Mobile App Users]
+%% ===== External Entities (Source / Sink) =====
+E1[Drivers and Mechanics]
+E2[Mobile Application Users]
 
-%% Data Stores
+%% ===== Processes (Gane & Sarson Approximation) =====
+P1[[1.0 Data Collection and Requirement Gathering]]
+P2[[2.0 Image Pre-processing]]
+P3[[3.0 CNN Model Training and Validation]]
+P4[[4.0 Model Deployment]]
+P5[[5.0 Tire Defect Classification]]
+P6[[6.0 System Evaluation using TAM]]
+
+%% ===== Data Stores =====
 D1[(Tire Image Dataset)]
-D2[(Defect Classification Dataset)]
-D3[(Trained CNN Model)]
-D4[(Evaluation Results)]
+D2[(Trained CNN Model)]
+D3[(Evaluation Results)]
 
-%% Processes
-P1[1.0 Collect Tire Data]
-P2[2.0 Gather System Requirements]
-P3[3.0 Image Pre-processing & Augmentation]
-P4[4.0 CNN Model Training]
-P5[5.0 Model Validation & Testing]
-P6[6.0 Model Deployment]
-P7[7.0 Tire Defect Classification]
-P8[8.0 System Evaluation using TAM]
-
-%% Data Flows
-Drivers --> P2
-Mechanics --> P2
-P2 --> Researchers
-
-Researchers --> P1
+%% ===== Data Flow =====
+E1 --> P1
 P1 --> D1
 
-D1 --> P3
+D1 --> P2
+P2 --> P3
 P3 --> D2
 
 D2 --> P4
-P4 --> D3
+P4 --> P5
 
-D3 --> P5
-P5 --> D4
+E2 --> P5
+P5 --> E2
 
-D3 --> P6
-P6 --> P7
-
-Users --> P7
-P7 --> Users
-
-Users --> P8
-P8 --> D4
+E2 --> P6
+P6 --> D3
